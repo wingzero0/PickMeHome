@@ -1,0 +1,17 @@
+/* override */
+.ui-btn-corner-all {
+  border-radius: 5px;
+}
+
+.hidden{
+	display:none;
+}
+
+.blockCenter{
+	margin: auto;
+	text-align: center;
+}
+
+.inlineCenter{
+	text-align: center;
+}
