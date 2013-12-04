@@ -44,10 +44,12 @@
 			$('#phoneNumberContainer').addClass('hidden');
 		}
 	}
-	var UpdatePhoneNumberContainer = function(){
-		
+	var UpdatePhoneLink = function(phoneNumber){
+		var phoneLink = $('#phoneLink');
+		phoneLink.attr('href', "tel:" + phoneNumber);
+		phoneLink.html(phoneNumber);
 	}
-	app.view.UpdatePhoneNumberContainer = UpdatePhoneNumberContainer;
+	app.view.UpdatePhoneLink = UpdatePhoneLink;
 	app.view.DisplayInitButton = DisplayInitButton;
 }).call(this, jQuery);
 
@@ -55,17 +57,20 @@
 ;(function($){
 	
 	var InitSetting = function(){
+		app.model.emergencyCall.keyup(app.model.SavePhoneNumber);
+
 		var retFlag = app.model.InitPhoneNumber();
 		app.view.DisplayInitButton(retFlag);
-		app.model.emergencyCall.keyup(app.model.SavePhoneNumber);
+		app.view.UpdatePhoneLink(app.model.emergencyCall.val());
 		
 		var backButton = $('#backButton');
 		backButton.click(function (){
-			var displayFlag = true;
-			if (app.model.emergencyCall.val().length == 0){
-				displayFlag = false;
+			var displayFlag = false;
+			if (app.model.emergencyCall.val().length != 0){
+				displayFlag = true;
 			}
 			app.view.DisplayInitButton(displayFlag);
+			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
 		});
 	}
 
