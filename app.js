@@ -49,8 +49,22 @@
 		phoneLink.attr('href', "tel:" + phoneNumber);
 		phoneLink.html(phoneNumber);
 	}
+
+	var ShowWelcomePage = function(){
+		// show the welcome page
+		$(document).bind('pageshow', function(event, ui) {
+		  if ($(event.target).attr('id') === 'welcome') {
+		    Swipe(document.getElementById('slider'), {continuous:false});
+		  }
+		});
+		setTimeout(function(){
+		  $.mobile.changePage('#welcome', {transition:'slideup'});
+		  $('#close-welcome-btn').click(function(){timer.restart();});
+		}, 500);
+	}
 	app.view.UpdatePhoneLink = UpdatePhoneLink;
 	app.view.DisplayInitButton = DisplayInitButton;
+	app.view.ShowWelcomePage = ShowWelcomePage;
 }).call(this, jQuery);
 
 // controller
@@ -72,6 +86,13 @@
 			app.view.DisplayInitButton(displayFlag);
 			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
 		});
+
+		$(function(){
+			window.mySwipe = Swipe(document.getElementById('slider'), {
+				auto: 3000
+			});
+		});
+		app.view.ShowWelcomePage();
 	}
 
 	// app is in window scope

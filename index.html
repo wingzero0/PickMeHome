@@ -36,11 +36,27 @@
         <!-- content here -->
       </div>
     </div>
-
+    <div data-role='page' id='welcome'>
+      <div data-role='content'>
+        <div id='slider' class='swipe'>
+          <div class='swipe-wrap'>
+            <div>
+              <p>Step 1: Focus on you current task for 25 minutes.</p>
+              <p><small>&lt;&lt;-- Swipe for more.</small></p>
+            </div>
+            <div><p>Step 2: Rest for 5 muntues when time’s up.</p></div>
+            <div><p>Step 3: Repeat.</p></div>
+            <div><p>Press “Done” to get start.</p></div>
+          </div>
+        </div>
+        <a id='close-welcome-btn' data-role='button' data-rel='back'>Done</a>
+      </div>
+    </div>
 
     <!-- JavaScript at the bottom -->
     <script src='vendors/jquery-2.0.3.js'></script>
     <script src='vendors/jquery.mobile-1.3.2.js'></script>
+    <script src='vendors/swipe.js '></script>
     <script src='app.js'></script>
   </body>
 </html>
