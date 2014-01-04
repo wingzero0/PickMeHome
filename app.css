@@ -16,6 +16,15 @@
 	text-align: center;
 }
 
+.pageCenter{
+  margin-top: 100px;
+}
+
+#callButton{
+  font-size: 5em;
+  padding: 0.5em;
+}
+
 /* SwipeJS */
 .swipe {
   overflow: hidden;

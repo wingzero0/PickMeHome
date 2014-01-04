@@ -22,12 +22,25 @@
 		localStorage['phoneNumber'] = emergencyCall.val();
 	}
 	
+	var IsFirstLaunch = function(){
+		if (typeof localStorage['firstLaunch'] != 'undefined' && localStorage['firstLaunch'].length !=0 ){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	var Launched = function(){
+		localStorage['firstLaunch'] = 1;
+	}
+
 	app.model.InitPhoneNumber = InitPhoneNumber;
 	app.model.SavePhoneNumber = SavePhoneNumber;
-	
+	app.model.IsFirstLaunch = IsFirstLaunch;
+	app.model.Launched = Launched;
 }).call(this, jQuery);
 
-// view
+// view, must be init after "app.model" is ready
 ;(function($){
 	var app = this.app || (this.app = {});
 	
@@ -45,12 +58,16 @@
 		}
 	}
 	var UpdatePhoneLink = function(phoneNumber){
-		var phoneLink = $('#phoneLink');
+		var phoneLink = $('.phoneLink');
 		phoneLink.attr('href', "tel:" + phoneNumber);
+		phoneLink.html("Call now: " + phoneNumber);
+
+		phoneLink = $('#phoneLink');
+		//phoneLink.attr('href', "tel:" + phoneNumber);
 		phoneLink.html(phoneNumber);
 	}
 
-	var ShowWelcomePage = function(){
+	var InitView = function(){
 		// show the welcome page
 		$(document).bind('pageshow', function(event, ui) {
 		  if ($(event.target).attr('id') === 'welcome') {
@@ -59,15 +76,23 @@
 				auto: 2000,
 				continuous: false
 			});
+
+			app.model.Launched();
 		  }
 		});
-		setTimeout(function(){
-		  $.mobile.changePage('#welcome', {transition:'slideup'});
-		}, 500);
+
+		// if it is a new installed program, set time out to display 
+		if (app.model.IsFirstLaunch()){
+			setTimeout(function(){
+			  $.mobile.changePage('#welcome', {transition:'slideup'});
+			}, 500);
+		}
+
+		$.mobile.defaultPageTransition = 'slide';
 	}
 	app.view.UpdatePhoneLink = UpdatePhoneLink;
 	app.view.DisplayInitButton = DisplayInitButton;
-	app.view.ShowWelcomePage = ShowWelcomePage;
+	app.view.InitView = InitView;
 }).call(this, jQuery);
 
 // controller
@@ -90,9 +115,10 @@
 			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
 		});
 
-		$(function(){
-			app.view.ShowWelcomePage();
-		});
+		app.view.InitView();
+		
+		console.log("height:" + $( window ).height());
+		console.log("width:" + $( window ).width());
 	}
 
 	// app is in window scope
