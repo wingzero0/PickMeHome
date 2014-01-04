@@ -54,12 +54,15 @@
 		// show the welcome page
 		$(document).bind('pageshow', function(event, ui) {
 		  if ($(event.target).attr('id') === 'welcome') {
-		    Swipe(document.getElementById('slider'), {continuous:false});
+		    window.mySwipe = Swipe(document.getElementById('slider'), {
+				speed: 300,
+				auto: 2000,
+				continuous: false
+			});
 		  }
 		});
 		setTimeout(function(){
 		  $.mobile.changePage('#welcome', {transition:'slideup'});
-		  $('#close-welcome-btn').click(function(){timer.restart();});
 		}, 500);
 	}
 	app.view.UpdatePhoneLink = UpdatePhoneLink;
@@ -88,11 +91,8 @@
 		});
 
 		$(function(){
-			window.mySwipe = Swipe(document.getElementById('slider'), {
-				auto: 3000
-			});
+			app.view.ShowWelcomePage();
 		});
-		app.view.ShowWelcomePage();
 	}
 
 	// app is in window scope
