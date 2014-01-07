@@ -4,38 +4,35 @@
     <meta charset='utf-8'>
     <!-- viewport for mobile browser -->
     <meta content='width=device-width, minimum-scale=1, maximum-scale=1' name='viewport'>
-    <title>Project</title> <!-- change to project title here -->
+    <title>醉後麻煩你</title> <!-- change to project title here -->
     <link href='vendors/jquery.mobile-1.3.2.css' rel='stylesheet'>
     <link href='app.css' rel='stylesheet'>
   </head>
   <body>
     <div data-role='page' id='root'>
-      <div data-role='header'>
-        <h1>PickMeHome</h1>
-        <a class='ui-btn-left' data-role='button' href='#welcome'>Toturial</a>
-        <a class='ui-btn-right' data-role='button' href='#setting'>Setting</a>
+      <div data-role='header' class='bigFont'>
+        <h1>醉後麻煩你</h1>
+        <a class='ui-btn-left' data-role='button' href='#welcome'>教學</a>
+        <a class='ui-btn-right' data-role='button' href='#setting'>設定</a>
       </div>
-      <div data-role='content'>
+      <div data-role='content' class='bigFont pageCenter'>
         <!-- content here -->
         <div id='phoneNumberContainer'>
-          <!-- <p class='inlineCenter'>Please pick me home: <a id='phoneLink' class='phoneLink' href="tel:+xxxxxxxxx">xxxxxxxxx</a>
-          </p> -->
           <a data-role='button' id='callButton' class='phoneLink' href='tel:+xxxxxxxxx'>Call 12345678</a>
         </div>
         <div id='phoneInitButton' class='hidden blockCenter pageCenter'>
-          <!-- <a class='ui-btn-right' data-role='button' href='#setting'>Setting</a> -->
-          <a data-role='button' href='#setting'>Setting</a>
+          <a data-role='button' href='#setting'>設定</a>
         </div>
       </div>
     </div>
     <div data-role='page' id='setting'>
-      <div data-role='header'>
-        <h1>Setting</h1>
-        <a id='backButton' data-icon='arrow-l' data-rel='back'>Back</a>
+      <div data-role='header' class='bigFont'>
+        <h1>設定</h1>
+        <a id='backButton' data-icon='arrow-l' data-rel='back'>返回</a>
         <!-- <a class='ui-btn-right' data-role='button' href='#welcome'>Toturial</a> -->
       </div>
       <div data-role='content' class='pageCenter'>
-        <div>Input Your Helper Phone Number Here
+        <div><p class='bigFont'>請填入那個會在你醉死了，但還願意載你回家的好友的電話</p>
           <input type='tel' id='emergencyCall' name='emergencyCall'>
         </div>
         <!-- content here -->
@@ -45,14 +42,15 @@
       <div data-role='content'>
         <div id='slider' class='swipe'>
           <div class='swipe-wrap'>
-            <div><img src="images/resize/tutorial01.png" alt=""></div>
-            <div><img src="images/resize/tutorial02.png" alt=""></div>
-            <div><img src="images/resize/tutorial03.png" alt=""></div>
-            <div><img src="images/resize/tutorial04.png" alt=""></div>
-            <div><img src="images/resize/tutorial05.png" alt=""></div>
+            <div><p>這是一個讓你在吃飽喝醉之後，不會睡倒在街頭的App</p><img src="images/resize/tutorial01.png" alt=""></div>
+            <div><p>使用方式很簡單，在你出門之前，先設定好你的緊急聯絡人電話</p><img src="images/resize/tutorial02.png" alt=""></div>
+            <div><p>然後在Home Screen上新增這個App的小工具(Home Screen Wedgit)，方便你即使醉得亂七八糟，打開電話時還能找到這個App</p><img src="images/resize/tutorial03.png" alt=""></div>
+            <div>
+              <p>快來設定吧！</p>
+              <a id='close-welcome-btn' data-role='button' data-rel='back' class='ui-btn-left'>完成</a>
+            </div>
           </div>
         </div>
-        <a id='close-welcome-btn' data-role='button' data-rel='back'>Done</a>
       </div>
     </div>
 

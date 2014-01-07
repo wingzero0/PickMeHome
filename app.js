@@ -72,11 +72,13 @@
 		$(document).bind('pageshow', function(event, ui) {
 		  if ($(event.target).attr('id') === 'welcome') {
 		    window.mySwipe = Swipe(document.getElementById('slider'), {
-				speed: 300,
-				auto: 2000,
+				speed: 1000,
+				auto: 4000,
 				continuous: false
 			});
-
+			$("#close-welcome-btn").click(function(){
+				window.mySwipe.kill();
+			});
 			app.model.Launched();
 		  }
 		});
@@ -97,7 +99,17 @@
 
 // controller
 ;(function($){
-	
+	var InitGeneralEvent = function() {
+		if (window.Touch) {
+		  $('a').bind('touchstart', function(e) {
+		    e.preventDefault();
+		  });
+		  $('a').bind('touchend', function(e) {
+		    e.preventDefault();
+		    return $(this).trigger('click');
+		  });
+		}
+	}
 	var InitSetting = function(){
 		app.model.emergencyCall.keyup(app.model.SavePhoneNumber);
 
