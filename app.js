@@ -115,22 +115,30 @@
 
 		var retFlag = app.model.InitPhoneNumber();
 		app.view.DisplayInitButton(retFlag);
-		app.view.UpdatePhoneLink(app.model.emergencyCall.val());
+		app.view.UpdatePhoneLink(app.model.emergencyCall.val());	
 		
 		var backButton = $('#backButton');
+		var telInput = $('#emergencyCall');
 		backButton.click(function (){
 			var displayFlag = false;
 			if (app.model.emergencyCall.val().length != 0){
-				displayFlag = true;
+			displayFlag = true;
 			}
 			app.view.DisplayInitButton(displayFlag);
 			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
 		});
+		telInput.keydown(function(e){
+			var code = e.keyCode || e.which;
+			if (code == 9 || code == 13){
+			e.preventDefault();
+			backButton.click();
+			}
+		});
 
 		app.view.InitView();
 		
-		console.log("height:" + $( window ).height());
-		console.log("width:" + $( window ).width());
+		// console.log("height:" + $( window ).height());
+		// console.log("width:" + $( window ).width());
 	}
 
 	// app is in window scope
