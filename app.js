@@ -30,14 +30,14 @@
 		}
 	}
 
-	var Launched = function(){
+	var SetLaunched = function(){
 		localStorage['firstLaunch'] = 1;
 	}
 
 	app.model.InitPhoneNumber = InitPhoneNumber;
 	app.model.SavePhoneNumber = SavePhoneNumber;
 	app.model.IsFirstLaunch = IsFirstLaunch;
-	app.model.Launched = Launched;
+	app.model.SetLaunched = SetLaunched;
 }).call(this, jQuery);
 
 // view, must be init after "app.model" is ready
@@ -58,40 +58,36 @@
 		}
 	}
 	var UpdatePhoneLink = function(phoneNumber){
-		var phoneLink = $('.phoneLink');
+		var phoneLink = $('#callButton');
 		phoneLink.attr('href', "tel:" + phoneNumber);
 		phoneLink.html(app.view.callDescription + " : "+ phoneNumber);
 
-		phoneLink = $('#phoneLink');
+		// phoneLink = $('#phoneLink');
 		//phoneLink.attr('href', "tel:" + phoneNumber);
-		phoneLink.html(phoneNumber);
+		// phoneLink.html(phoneNumber);
 	}
 
 	var InitView = function(){
 		// show the welcome page
 		$(document).bind('pageshow', function(event, ui) {
 		  if ($(event.target).attr('id') === 'welcome') {
-		  	if (window.mySwipe){
-		  		window.mySwipe.kill();
-		  	}
+		  	// if (window.mySwipe){
+		  	// 	window.mySwipe.kill();
+		  	// }
 		    window.mySwipe = Swipe(document.getElementById('slider'), {
 				speed: 1000,
 				auto: 4000,
 				continuous: false
 			});
-			$("#close-welcome-btn").click(function(){
+			// $("#close-welcome-btn").click(function(){
+			// 	window.mySwipe.kill();
+			// });
+			$("#welcome").on("pagebeforehide", function(e){
 				window.mySwipe.kill();
 			});
-			app.model.Launched();
+			app.model.SetLaunched();
 		  }
 		});
-
-		// if it is a new installed program, set time out to display 
-		if (app.model.IsFirstLaunch()){
-			setTimeout(function(){
-			  $.mobile.changePage('#welcome', {transition:'slideup'});
-			}, 500);
-		}
 
 		$.mobile.defaultPageTransition = 'slide';
 
@@ -116,50 +112,44 @@
 		}
 	}
 	var InitSetting = function(){
-		// app.model.emergencyCall.keyup(app.model.SavePhoneNumber);
+		// InitGeneralEvent();
 
+		// init view display
 		app.view.InitView();
 		var retFlag = app.model.InitPhoneNumber();
 		app.view.DisplayInitButton(retFlag);
 		app.view.UpdatePhoneLink(app.model.emergencyCall.val());	
-		
+
+
+		// if it is a new installed program, set time out to display 
+		if (app.model.IsFirstLaunch()){
+			setTimeout(function(){
+			  $.mobile.changePage('#welcome', {transition:'slideup'});
+			}, 500);
+		}
+
+		// bind event for user input
 		var backButton = $('#backButton');
 		var telInput = $('#emergencyCall');
 
-		var backUpdate = function (){
-			var displayFlag = false;
-			if (app.model.emergencyCall.val().length != 0){
-				displayFlag = true;
-			}
-			app.view.DisplayInitButton(displayFlag);
-			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
-		}
-
-		backButton.click(backUpdate);
-
-		app.model.emergencyCall.keyup(function(e){
+		app.model.emergencyCall.keydown(function(e){
 			var code = e.keyCode || e.which;
 			if (code == 9 || code == 13){
 				e.preventDefault();
 				backButton.click();
 				return;
 			}
-			app.model.SavePhoneNumber();
-			// alert("Saved");
-			backUpdate(); // protect the program if user press back button
 		});
 
-		// telInput.keydown(function(e){
-		// 	var code = e.keyCode || e.which;
-		// 	if (code == 9 || code == 13){
-		// 		e.preventDefault();
-		// 		backButton.click();
-		// 	}
-		// });
-
-		
-		// console.log("height:" + $( window ).height());
-		// console.log("width:" + $( window ).width());
+		$("#setting").on("pagebeforehide", function(e){
+			app.model.SavePhoneNumber();
+			var displayFlag = false;
+			if (app.model.emergencyCall.val().length != 0){
+				displayFlag = true;
+			}
+			app.view.DisplayInitButton(displayFlag);
+			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
+		});
 	}
 
 	// app is in window scope
