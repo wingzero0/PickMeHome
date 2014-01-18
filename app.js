@@ -60,7 +60,7 @@
 	var UpdatePhoneLink = function(phoneNumber){
 		var phoneLink = $('.phoneLink');
 		phoneLink.attr('href', "tel:" + phoneNumber);
-		phoneLink.html("Call now: " + phoneNumber);
+		phoneLink.html(app.view.callDescription + " : "+ phoneNumber);
 
 		phoneLink = $('#phoneLink');
 		//phoneLink.attr('href', "tel:" + phoneNumber);
@@ -71,6 +71,9 @@
 		// show the welcome page
 		$(document).bind('pageshow', function(event, ui) {
 		  if ($(event.target).attr('id') === 'welcome') {
+		  	if (window.mySwipe){
+		  		window.mySwipe.kill();
+		  	}
 		    window.mySwipe = Swipe(document.getElementById('slider'), {
 				speed: 1000,
 				auto: 4000,
@@ -91,6 +94,8 @@
 		}
 
 		$.mobile.defaultPageTransition = 'slide';
+
+		app.view.callDescription = $('#callDes').text();
 	}
 	app.view.UpdatePhoneLink = UpdatePhoneLink;
 	app.view.DisplayInitButton = DisplayInitButton;
@@ -111,31 +116,47 @@
 		}
 	}
 	var InitSetting = function(){
-		app.model.emergencyCall.keyup(app.model.SavePhoneNumber);
+		// app.model.emergencyCall.keyup(app.model.SavePhoneNumber);
 
+		app.view.InitView();
 		var retFlag = app.model.InitPhoneNumber();
 		app.view.DisplayInitButton(retFlag);
 		app.view.UpdatePhoneLink(app.model.emergencyCall.val());	
 		
 		var backButton = $('#backButton');
 		var telInput = $('#emergencyCall');
-		backButton.click(function (){
+
+		var backUpdate = function (){
 			var displayFlag = false;
 			if (app.model.emergencyCall.val().length != 0){
-			displayFlag = true;
+				displayFlag = true;
 			}
 			app.view.DisplayInitButton(displayFlag);
 			app.view.UpdatePhoneLink(app.model.emergencyCall.val());
-		});
-		telInput.keydown(function(e){
+		}
+
+		backButton.click(backUpdate);
+
+		app.model.emergencyCall.keyup(function(e){
 			var code = e.keyCode || e.which;
 			if (code == 9 || code == 13){
-			e.preventDefault();
-			backButton.click();
+				e.preventDefault();
+				backButton.click();
+				return;
 			}
+			app.model.SavePhoneNumber();
+			// alert("Saved");
+			backUpdate(); // protect the program if user press back button
 		});
 
-		app.view.InitView();
+		// telInput.keydown(function(e){
+		// 	var code = e.keyCode || e.which;
+		// 	if (code == 9 || code == 13){
+		// 		e.preventDefault();
+		// 		backButton.click();
+		// 	}
+		// });
+
 		
 		// console.log("height:" + $( window ).height());
 		// console.log("width:" + $( window ).width());
