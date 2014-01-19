@@ -1,3 +1,9 @@
+.ui-icon-phone {
+  background-image: url(images/call.png);
+  background-repeat: no-repeat;
+  background-position: 0% 50%;
+}
+
 /* override */
 .ui-btn-corner-all {
   border-radius: 5px;
@@ -30,8 +36,8 @@
 }
 
 #callButton{
-  font-size: 4em;
-  padding: 0.5em;
+  font-size: 3.5em;
+  padding: 1.5em 0em 1.5em 64px;
 }
 
 /* SwipeJS */

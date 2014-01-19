@@ -60,11 +60,8 @@
 	var UpdatePhoneLink = function(phoneNumber){
 		var phoneLink = $('#callButton');
 		phoneLink.attr('href', "tel:" + phoneNumber);
-		phoneLink.html(app.view.callDescription + " : "+ phoneNumber);
-
-		// phoneLink = $('#phoneLink');
-		//phoneLink.attr('href', "tel:" + phoneNumber);
-		// phoneLink.html(phoneNumber);
+		phoneLink.html(phoneNumber);
+		// phoneLink.html(app.view.callDescription + " : "+ phoneNumber);
 	}
 
 	var InitView = function(){
